@@ -1,6 +1,6 @@
 """The program converts fractions to their percentage values."""
 import sys
-from decimal import Decimal, DecimalException, ROUND_HALF_EVEN
+from array import array
 from typing import Callable, Iterable, Optional
 
 
@@ -19,7 +19,7 @@ def read_fraction_amount(read_input: Callable[[str], str]) -> int:
     return int(value)
 
 
-def read_fraction(number: int, amount: int, read_input: Callable[[str], str]) -> Decimal:
+def read_fraction(number: int, amount: int, read_input: Callable[[str], str]) -> float:
     """Read fraction value from given read stream function.
 
     :param number: Number of input.
@@ -28,11 +28,11 @@ def read_fraction(number: int, amount: int, read_input: Callable[[str], str]) ->
     :return: Fraction value.
     """
     input_msg: str = f'Input fraction ({number} of {amount}): '
-    value: Optional[Decimal] = None
+    value: Optional[float] = None
     while value is None:
         try:
-            value = Decimal(read_input(input_msg))
-        except DecimalException:
+            value = float(read_input(input_msg))
+        except ValueError:
             print_error('Incorrect input. Should be a rational number.')
 
     return value
@@ -46,7 +46,7 @@ def print_error(message: str) -> None:
     sys.stderr.write(f'{message}\n')
 
 
-def calculate_fraction_percents(read_input: Callable[[str], str]) -> Iterable[Decimal]:
+def calculate_fraction_percents(read_input: Callable[[str], str]) -> Iterable[float]:
     """Calculate faction percents.
 
     :param read_input: Function that accepts a message which will be printed to a user, then reads input from the user
@@ -57,19 +57,26 @@ def calculate_fraction_percents(read_input: Callable[[str], str]) -> Iterable[De
     print('To exit just press Ctrl+C.')
 
     fractions_amount: int = read_fraction_amount(read_input)
-    fractions: list = [
-        read_fraction(number, fractions_amount, read_input)
-        for number in range(1, fractions_amount + 1)
-    ]
-    fractions_sum: Decimal = sum(fractions)
-    quantize: Decimal = Decimal('1.000')
+    fractions: array = array('f',
+                             (read_fraction(number, fractions_amount, read_input)
+                              for number in range(1, fractions_amount + 1)))
+    fractions_sum: float = sum(fractions)
     for fraction in fractions:
-        yield (fraction / fractions_sum).quantize(quantize, rounding=ROUND_HALF_EVEN)
+        yield round((fraction / fractions_sum), 3)
+
+
+def format_fraction(value: float) -> str:
+    """Format fraction to string adding leading zeroes.
+
+    :param value: Float value.
+    :return: String of float value with leading zeroes.
+    """
+    return '{:.3f}'.format(value)
 
 
 if __name__ == '__main__':
     try:
         for percent in calculate_fraction_percents(input):
-            print(percent)
+            print(format_fraction(percent))
     except KeyboardInterrupt:
         exit(0)
