@@ -15,5 +15,7 @@ class TestFractionPercentCalculationTestCase(TestCase):
             def read_input(_: str) -> str:
                 return input_values.pop(0)
 
-            for actual, expected in zip(calculate_fraction_percents(read_input), expected_output):
+            percents = list(calculate_fraction_percents(read_input))
+            self.assertNotEqual(len(percents), 0)
+            for actual, expected in zip(percents, expected_output):
                 self.assertEqual(format_fraction(actual), expected)

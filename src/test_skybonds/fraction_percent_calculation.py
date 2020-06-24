@@ -57,10 +57,12 @@ def calculate_fraction_percents(read_input: Callable[[str], str]) -> Iterable[fl
     print('To exit just press Ctrl+C.')
 
     fractions_amount: int = read_fraction_amount(read_input)
-    fractions: array = array('f',
-                             (read_fraction(number, fractions_amount, read_input)
-                              for number in range(1, fractions_amount + 1)))
-    fractions_sum: float = sum(fractions)
+    fractions: array = array('f')
+    fractions_sum: float = 0
+    for number in range(1, fractions_amount + 1):
+        fraction = read_fraction(number, fractions_amount, read_input)
+        fractions.append(fraction)
+        fractions_sum += fraction
     for fraction in fractions:
         yield round((fraction / fractions_sum), 3)
 
