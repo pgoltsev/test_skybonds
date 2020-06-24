@@ -1,0 +1,19 @@
+from unittest import TestCase
+
+from .fraction_percent_calculation import calculate_fraction_percents, format_fraction
+
+
+class TestFractionPercentCalculationTestCase(TestCase):
+    def test_calculation(self):
+        data = [
+            (['2', '1.5', '1.5'], ['0.500', '0.500']),
+            (['2', '0.5', '1.5'], ['0.250', '0.750']),
+            (['2', '0.111', '0.222'], ['0.333', '0.667']),
+        ]
+
+        for input_values, expected_output in data:
+            def read_input(_: str) -> str:
+                return input_values.pop(0)
+
+            for actual, expected in zip(calculate_fraction_percents(read_input), expected_output):
+                self.assertEqual(format_fraction(actual), expected)
