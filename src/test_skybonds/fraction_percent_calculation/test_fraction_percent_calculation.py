@@ -4,7 +4,7 @@ from .fraction_percent_calculation import calculate_fraction_percents, format_fr
 
 
 class TestFractionPercentCalculationTestCase(TestCase):
-    def test_calculation(self):
+    def test_fraction_percent_calculation(self):
         data = [
             (['2', '1.5', '1.5'], ['0.500', '0.500']),
             (['2', '0.5', '1.5'], ['0.250', '0.750']),
