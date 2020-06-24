@@ -54,9 +54,6 @@ def calculate_fraction_percents(read_input: Callable[[str], str]) -> Iterable[fl
     and returns it.
     :return: Iterable with calculated percents.
     """
-    print(__doc__)
-    print('To exit just press Ctrl+C.')
-
     fractions_amount: int = read_fraction_amount(read_input)
     fractions: array = array('f')
     fractions_sum: float = 0
@@ -78,6 +75,9 @@ def format_fraction(value: float) -> str:
 
 
 if __name__ == '__main__':
+    print(__doc__)
+    print('To exit just press Ctrl+C.')
+
     try:
         for percent in calculate_fraction_percents(input):
             print(format_fraction(percent))
