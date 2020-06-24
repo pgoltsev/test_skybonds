@@ -1,5 +1,5 @@
 Profiling was performed on MacBook Air 2019 16Gb Ram Core i5 and CPython 3.8.2 (64bit)
-For 1000 input items the program consume ~10Mb.
+For 1000 input items the program consumes ~10Mb.
 
 test_as_process:
 Exec time 1000: 0.0621011257s
