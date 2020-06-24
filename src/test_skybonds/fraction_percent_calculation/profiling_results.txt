@@ -2,25 +2,25 @@ Profiling was performed on MacBook Air 2019 16Gb Ram Core i5 and CPython 3.8.2 (
 For 1000 input items the program consumes ~10Mb.
 
 test_as_process:
-Exec time 1000: 0.0621011257s
-Exec time 1000000: 10.6063499451s
+Exec time 1000: 0.0498282909s
+Exec time 1000000: 7.9582579136s
 test_as_function:
-Exec time 1000: 0.0030090809s
-Exec time 1000000: 3.0530416965s
-Exec time 2000000: 6.1349291801s
+Exec time 1000: 0.0030400753s
+Exec time 1000000: 2.7520530224s
+Exec time 2000000: 5.7917480469s
 
 test_as_process:
-Exec time 1000: 0.0726048946s
-Exec time 1000000: 10.4868907928s
+Exec time 1000: 0.0495238304s
+Exec time 1000000: 7.8701992035s
 test_as_function:
-Exec time 1000: 0.0036840439s
-Exec time 1000000: 2.9883887768s
-Exec time 2000000: 6.2107551098s
+Exec time 1000: 0.0033659935s
+Exec time 1000000: 2.9533679485s
+Exec time 2000000: 6.0368440151s
 
 test_as_process:
-Exec time 1000: 0.0574593544s
-Exec time 1000000: 11.7554900646s
+Exec time 1000: 0.0488147736s
+Exec time 1000000: 8.2788879871s
 test_as_function:
-Exec time 1000: 0.0032629967s
-Exec time 1000000: 3.1853671074s
-Exec time 2000000: 6.6001808643s
+Exec time 1000: 0.0032887459s
+Exec time 1000000: 3.0111129284s
+Exec time 2000000: 6.1198668480s
