@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """The program converts fractions to their percentage values."""
 import sys
 from array import array
