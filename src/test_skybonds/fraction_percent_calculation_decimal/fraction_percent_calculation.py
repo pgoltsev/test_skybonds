@@ -30,11 +30,16 @@ def read_fraction(number: int, amount: int, read_input: Callable[[str], str]) ->
     """
     input_msg: str = f'Input fraction ({number} of {amount}): '
     value: Optional[Decimal] = None
-    while value is None:
+    while True:
         try:
             value = Decimal(read_input(input_msg))
         except DecimalException:
-            print_error('Incorrect input. Should be a rational number.')
+            pass
+
+        if value is None or value <= 0:
+            print_error('Incorrect input. Should be a rational positive number greater than 0.')
+        else:
+            break
 
     return value
 
