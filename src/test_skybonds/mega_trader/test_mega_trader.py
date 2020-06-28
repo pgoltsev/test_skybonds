@@ -28,7 +28,7 @@ class MegaTraderTestCase(TestCase):
             main()
 
         out.seek(0)
-        income = out.readline().strip()
+        actual_income = out.readline().strip()
         actual_lots = [line.strip() for line in out]
-        self.assertEqual(income, expected_income)
+        self.assertEqual(actual_income, expected_income)
         self.assertListEqual(actual_lots, expected_lots)
