@@ -7,6 +7,7 @@ from test_skybonds.mega_trader.mega_trader import main
 
 class MegaTraderTestCase(TestCase):
     def test_buying_profitable_slots(self):
+        """Test buying the most profitable slots and total trader's income."""
         input_values = [
             '2 2 8000',
             '1 alfa-05 100.2 2',
