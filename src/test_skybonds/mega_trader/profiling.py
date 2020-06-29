@@ -14,7 +14,7 @@ def generate_lot_data() -> str:
 
 
 cpu_results = []
-for data_amount in [1000, 2000, 3000]:
+for data_amount in [1000, 10000, 70000]:
     initial_data = f'{data_amount} {data_amount} 999999999'
     data = '\\n'.join(generate_lot_data() for _ in range(data_amount))
     cpu_results.append(
@@ -29,7 +29,7 @@ sleep(5)
 
 filename = Path(__file__).absolute().parent / 'mega_trader.py'
 exec_line = shlex.split(f'{sys.executable} -m memory_profiler {filename}')
-for data_amount in [1000, 2000, 3000]:
+for data_amount in [1000, 10000, 70000]:
     initial_data = f'{data_amount} {data_amount} 999999999'
     data = '\n'.join(generate_lot_data() for _ in range(data_amount))
     subprocess.run(exec_line, text=True, input=f'{initial_data}\n{data}\n')
