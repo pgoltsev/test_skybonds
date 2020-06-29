@@ -34,3 +34,11 @@ for data_amount in [1000, 2000, 3000]:
     data = '\n'.join(generate_lot_data() for _ in range(data_amount))
     subprocess.run(exec_line, text=True, input=f'{initial_data}\n{data}\n')
     sleep(10)
+
+# Extra profiling.
+filename = Path(__file__).absolute().parent / 'mega_trader.py'
+data_amount = 2000
+initial_data = f'{data_amount} {data_amount} 999999999'
+data = '\n'.join(generate_lot_data() for _ in range(data_amount))
+exec_line = shlex.split(f'{sys.executable} -m cProfile {filename}')
+subprocess.run(exec_line, text=True, input=f'{initial_data}\n{data}\n')
