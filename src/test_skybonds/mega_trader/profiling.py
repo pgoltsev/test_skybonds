@@ -27,13 +27,19 @@ for data_amount in [1000, 10000, 70000]:
 print('cpu_results: %s' % cpu_results)
 sleep(5)
 
-filename = Path(__file__).absolute().parent / 'mega_trader.py'
-exec_line = shlex.split(f'{sys.executable} -m memory_profiler {filename}')
-for data_amount in [1000, 10000, 70000]:
-    initial_data = f'{data_amount} {data_amount} 999999999'
-    data = '\n'.join(generate_lot_data() for _ in range(data_amount))
-    subprocess.run(exec_line, text=True, input=f'{initial_data}\n{data}\n')
-    sleep(10)
+try:
+    import memory_profiler
+except ImportError:
+    print('To profile memory please install "memory_profiler"')
+    sleep(5)
+else:
+    filename = Path(__file__).absolute().parent / 'mega_trader.py'
+    exec_line = shlex.split(f'{sys.executable} -m memory_profiler {filename}')
+    for data_amount in [1000, 10000, 70000]:
+        initial_data = f'{data_amount} {data_amount} 999999999'
+        data = '\n'.join(generate_lot_data() for _ in range(data_amount))
+        subprocess.run(exec_line, text=True, input=f'{initial_data}\n{data}\n')
+        sleep(10)
 
 # Extra profiling.
 filename = Path(__file__).absolute().parent / 'mega_trader.py'

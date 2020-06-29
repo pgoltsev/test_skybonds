@@ -19,12 +19,18 @@ for data_amount in [1000, 10000, 100000]:
 print('cpu_results: %s' % cpu_results)
 sleep(10)
 
-filename = Path(__file__).absolute().parent / 'fraction_percent_calculation.py'
-exec_line = shlex.split(f'{sys.executable} -m memory_profiler {filename}')
-for data_amount in [1000, 10000, 100000]:
-    data = '\n'.join(str(random.randint(1, 100)) for _ in range(data_amount))
-    subprocess.run(exec_line, text=True, input=f'{data_amount}\n{data}')
+try:
+    import memory_profiler
+except ImportError:
+    print('To profile memory please install "memory_profiler"')
     sleep(5)
+else:
+    filename = Path(__file__).absolute().parent / 'fraction_percent_calculation.py'
+    exec_line = shlex.split(f'{sys.executable} -m memory_profiler {filename}')
+    for data_amount in [1000, 10000, 100000]:
+        data = '\n'.join(str(random.randint(1, 100)) for _ in range(data_amount))
+        subprocess.run(exec_line, text=True, input=f'{data_amount}\n{data}')
+        sleep(10)
 
 # Extra profiling.
 filename = Path(__file__).absolute().parent / 'fraction_percent_calculation.py'
