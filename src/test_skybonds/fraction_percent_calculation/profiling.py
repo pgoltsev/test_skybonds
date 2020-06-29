@@ -24,3 +24,11 @@ for data_amount in [1000, 10000, 100000]:
     data = '\n'.join(str(random.randint(1, 100)) for _ in range(data_amount))
     subprocess.run(exec_line, text=True, input=f'{data_amount}\n{data}')
     sleep(5)
+
+# Extra profiling.
+filename = Path(__file__).absolute().parent / 'fraction_percent_calculation.py'
+data_amount = 10000
+initial_data = f'{data_amount} {data_amount} 999999999'
+data = '\n'.join(str(random.randint(1, 100)) for _ in range(data_amount))
+exec_line = shlex.split(f'{sys.executable} -m cProfile {filename}')
+subprocess.run(exec_line, text=True, input=f'{data_amount}\n{data}')
