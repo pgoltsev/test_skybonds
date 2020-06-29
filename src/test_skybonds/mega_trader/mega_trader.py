@@ -79,7 +79,6 @@ class MegaTrader:
         for lot in lots:
             if self.balance >= lot.price:
                 self.balance -= lot.price
-                market.remove(lot)
                 self.lots.append(lot)
 
         self.lots.sort(key=attrgetter('order'))
@@ -132,14 +131,6 @@ class Market:
 
         self._daily_lots[lot.day].append(lot)
         self.lots.append(lot)
-
-    def remove(self, lot: Lot) -> None:
-        """Remove lot from trading on the market.
-
-        :param lot: Lot.
-        """
-        self.lots.remove(lot)
-        self._daily_lots[lot.day].remove(lot)
 
     def evaluate_income(self, lot: Lot) -> Decimal:
         """Evaluate income of given on the end of trading period.
