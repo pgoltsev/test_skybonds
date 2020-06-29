@@ -1,49 +1,26 @@
+import random
 import shlex
 import subprocess
 import sys
-from functools import wraps
-from random import random
-from time import time
-from typing import Callable, Iterator
+from pathlib import Path
+from time import sleep
+from timeit import timeit
 
-from test_skybonds.fraction_percent_calculation.fraction_percent_calculation import calculate_fraction_percents
+cpu_results = []
+for data_amount in [1000, 10000, 100000]:
+    data = '\\n'.join(str(random.randint(1, 100)) for _ in range(data_amount))
+    cpu_results.append(
+        timeit(setup='from test_skybonds.fraction_percent_calculation.fraction_percent_calculation import main\n'
+                     f'from io import StringIO\n'
+                     f'from unittest.mock import patch\n',
+               stmt=f'with patch(\'sys.stdin\', StringIO(\'{data_amount}\\n{data}\')): main()', number=3)
+    )
+print('cpu_results: %s' % cpu_results)
+sleep(10)
 
-
-def timeit(fn: Callable) -> Callable:
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        start_time = time()
-        result = fn(*args, **kwargs)
-        exec_time = time() - start_time
-        print(f'Exec time {args[0]}: {exec_time:.10f}s')
-        return result
-
-    return wrapper
-
-
-@timeit
-def test_as_process(length: str, data: str):
-    subprocess.run(shlex.split(f'{sys.executable} ./fraction_percent_calculation.py'), text=True,
-                   stdout=subprocess.PIPE,
-                   input=f'{length}\n{data}')
-
-
-@timeit
-def test_as_function(length: str, data: Iterator[str]):
-    def read_input(_: str) -> str:
-        if hasattr(read_input, 'length_sent'):
-            return next(data)
-        read_input.length_sent = True
-        return length
-
-    for _ in calculate_fraction_percents(read_input):
-        ...
-
-
-print('test_as_process:')
-for data_amount in [1000, 1000000]:
-    test_as_process(str(data_amount), '\n'.join(str(random()) for _ in range(data_amount)))
-
-print('test_as_function:')
-for data_amount in [1000, 1000000, 2000000]:
-    test_as_function(str(data_amount), (str(random()) for _ in range(data_amount)))
+filename = Path(__file__).absolute().parent / 'fraction_percent_calculation.py'
+exec_line = shlex.split(f'{sys.executable} -m memory_profiler {filename}')
+for data_amount in [1000, 10000, 100000]:
+    data = '\n'.join(str(random.randint(1, 100)) for _ in range(data_amount))
+    subprocess.run(exec_line, text=True, input=f'{data_amount}\n{data}')
+    sleep(5)

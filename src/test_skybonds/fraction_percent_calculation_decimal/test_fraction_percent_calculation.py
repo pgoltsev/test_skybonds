@@ -1,6 +1,8 @@
+from io import StringIO
 from unittest import TestCase
+from unittest.mock import patch
 
-from .fraction_percent_calculation import calculate_fraction_percents
+from .fraction_percent_calculation import main
 
 
 class TestFractionPercentCalculationTestCase(TestCase):
@@ -20,10 +22,13 @@ class TestFractionPercentCalculationTestCase(TestCase):
         ]
 
         for input_values, expected_output in data:
-            def read_input(_: str) -> str:
-                return input_values.pop(0)
+            out = StringIO()
 
-            percents = list(calculate_fraction_percents(read_input))
+            with patch('sys.stdin', StringIO('\n'.join(input_values))), patch('sys.stdout', out):
+                main()
+
+            out.seek(0)
+            percents = [line.strip() for line in out]
             self.assertNotEqual(len(percents), 0)
             for actual, expected in zip(percents, expected_output):
                 self.assertEqual(str(actual), expected)
