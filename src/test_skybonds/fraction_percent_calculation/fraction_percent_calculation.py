@@ -41,7 +41,7 @@ def read_fraction() -> float:
         else:
             break
 
-    return value
+    return round(value, 3)
 
 
 def calculate_fraction_percents() -> Iterable[float]:
@@ -57,7 +57,7 @@ def calculate_fraction_percents() -> Iterable[float]:
         fractions.append(fraction)
         fractions_sum += fraction
     for fraction in fractions:
-        yield round((fraction / fractions_sum), 3)
+        yield fraction / fractions_sum
 
 
 def format_fraction(value: float) -> str:
